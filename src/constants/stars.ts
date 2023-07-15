@@ -1,4 +1,9 @@
-export const stars = Array.from({ length: 10 }, (_, id) => _ = {
-    id,
-    isHoverd:false
-})
+export const stars = (length: number) =>
+  Array.from(
+    { length },
+    (_, id) =>
+      (_ = {
+        id,
+        isHoverd: false,
+      }),
+  )

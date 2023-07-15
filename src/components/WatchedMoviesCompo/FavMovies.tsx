@@ -1,32 +1,29 @@
-import { WatchedMovies } from "../../constants/movies"
+import { UniqueMovie } from "../../hooks/usePopMovieById"
+import Button from "../common/Button"
+import WatchedMovie from "./WatchedMovie"
 
 type FavProps = {
-  favWatchedMovies: WatchedMovies
+  favWatchedMovies: (UniqueMovie & { rating: number })[]
+  DeleteWatchedMovie: (movieId: string) => void
 }
 
-function FavMovies({ favWatchedMovies }: FavProps) {
+function FavMovies({ favWatchedMovies, DeleteWatchedMovie }: FavProps) {
   return (
     <>
       <ul className="list">
         {favWatchedMovies.map((movie) => (
-          <li key={movie.imdbID}>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            <h3>{movie.Title}</h3>
-            <div>
-              <p>
-                <span>⭐️</span>
-                <span>{movie.imdbRating}</span>
-              </p>
-              <p>
-                <span>🌟</span>
-                <span>{movie.userRating}</span>
-              </p>
-              <p>
-                <span>⏳</span>
-                <span>{movie.runtime} min</span>
-              </p>
-            </div>
-          </li>
+          <WatchedMovie
+            movie={movie}
+            key={movie.imdbID}
+          >
+            <Button
+              type="button"
+              className="btn-delete"
+              onClick={() => DeleteWatchedMovie(movie.imdbID)}
+            >
+              X
+            </Button>
+          </WatchedMovie>
         ))}
       </ul>
     </>

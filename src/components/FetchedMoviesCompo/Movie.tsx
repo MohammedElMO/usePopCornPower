@@ -1,13 +1,16 @@
-import { Movies } from "../../constants/movies"
-
+import { MovieT } from "../../hooks/useMovies"
+import fallBack from "../../assets/fallback.png"
 type MovieProps = {
-  movie: Movies[number]
+  movie: MovieT
+  onChoose:(movieId:string) => void
+  idm:string
+
 }
 
-function Movie({ movie }: MovieProps) {
+function Movie({ movie,onChoose,idm }: MovieProps) {
   return (
-    <li key={movie.imdbID}>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+    <li key={movie.imdbID} onClick={() => onChoose(movie.imdbID)} className={`${movie.imdbID === idm ? "active" : ""}`}>
+      <img src={movie.Poster || fallBack} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
         <p>

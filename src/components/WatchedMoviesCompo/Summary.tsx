@@ -1,19 +1,24 @@
-import { WatchedMovies } from "../../constants/movies"
+import { UniqueMovie } from "../../hooks/usePopMovieById"
 import { average } from "../../utils/average"
 
 type SumProps = {
-  watchedMovies: WatchedMovies
+  watchedMovies: (UniqueMovie & { rating: number })[]
 }
 
 function Summary({ watchedMovies }: SumProps) {
   const avgImdbRating = average([
-    ...watchedMovies.map((movie) => movie.imdbRating),
-  ])
+    ...watchedMovies.map((movie) => movie.rating)
+  ]).toFixed(2)
   const avgUserRating = average([
-    ...watchedMovies.map((movie) => movie.userRating),
-  ])
-  const avgRuntime = average([...watchedMovies.map((movie) => movie.runtime)])
-
+    ...watchedMovies.map((movie) =>
+      Number(movie.Ratings[0].Value.split("/")[0])
+    )
+  ]).toFixed(2)
+  const avgRuntime = average([
+    ...watchedMovies.map((movie) =>
+      Number(movie.Runtime.split(" ")[0])
+    )
+  ]).toFixed()
   return (
     <>
       <div className="summary">
@@ -25,11 +30,11 @@ function Summary({ watchedMovies }: SumProps) {
           </p>
           <p>
             <span>⭐️</span>
-            <span>{avgImdbRating}</span>
+            <span>{avgUserRating}</span>
           </p>
           <p>
             <span>🌟</span>
-            <span>{avgUserRating}</span>
+            <span>{avgImdbRating}</span>
           </p>
           <p>
             <span>⏳</span>

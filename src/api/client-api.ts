@@ -1,9 +1,8 @@
 import axios from "axios"
 
 export default axios.create({
-  baseURL: "",
+  baseURL: "http://www.omdbapi.com",
   params: {
-    key:""
-  }
-  
+    apikey: import.meta.env.VITE_API_KEY,
+  },
 })

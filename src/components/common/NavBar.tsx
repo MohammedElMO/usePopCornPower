@@ -1,7 +1,7 @@
 import Input from "./Input"
-import { Movies } from "../../constants/movies"
+import type { ApiResponse, MovieT } from "../../hooks/useMovies"
 type NavProps = {
-  movies: Movies
+  movies: ApiResponse<MovieT>
   query: string
   setQuery: (movieName: string) => void
 }
@@ -15,7 +15,7 @@ function NavBar({ movies, query, setQuery }: NavProps) {
       </div>
       <Input value={query} onChange={(e) => setQuery(e.target.value)} />
       <p className="num-results">
-        Found <strong>{movies.length}</strong> results
+        Found <strong>{movies.Search?.length || 0}</strong> results
       </p>
     </nav>
   )
