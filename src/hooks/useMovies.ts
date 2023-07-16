@@ -1,4 +1,3 @@
-import { AxiosError, AxiosRequestConfig } from "axios"
 import { useEffect, useState } from "react"
 import clientApi from "../api/client-api"
 
@@ -19,7 +18,6 @@ export interface ApiResponse<T> {
 
 const useMovies = (s: string) => {
   const [movies, setMovies] = useState({} as ApiResponse<MovieT>)
-  // const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   
   useEffect(() => {

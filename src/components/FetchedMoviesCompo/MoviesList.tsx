@@ -1,7 +1,8 @@
 import type { ApiResponse, MovieT } from "../../hooks/useMovies"
 import Loader from "../common/Loader"
 import Movie from "./Movie"
-
+import empty from "../../assets/empty.png"
+import emptyPage from "../../assets/page.png"
 type ListProps = {
   movies: ApiResponse<MovieT>
   query: string
@@ -17,10 +18,22 @@ function MoviesList({
   loading,
   handleSelectedMovie
 }: ListProps) {
-  if (!query) return <h1 className="error">No Search name was provided</h1>
+  if (!query)
+    return (
+      <div className="empty_state">
+        <img src={empty} alt="no search query image" />
+        <h1 className="error">No Search name was provided</h1>
+      </div>
+    )
+
   if (loading) return <Loader />
   if (!Boolean(movies.Response) || movies.Error)
-    return <h1 className="error">No Movies Was Found</h1>
+    return (
+      <div className="empty_state">
+      <img src={emptyPage} alt="no search query image" />
+      <h1 className="error">No Movies Were Found</h1>
+    </div>
+    )
   return (
     <>
       <ul className="list list-movies">

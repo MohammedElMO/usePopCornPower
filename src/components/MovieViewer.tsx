@@ -1,27 +1,42 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import usePopMovieById, { UniqueMovie } from "../hooks/usePopMovieById"
 import Rating from "./Rating"
 import Loader from "./common/Loader"
+import { ApiResponse, MovieT } from "../hooks/useMovies"
+import fallback from "../assets/fallback.png"
 type ViewerProps = {
   movieId: string
   onBackToMovies: () => void
   OnAddToWishList: (wishedMovie: UniqueMovie & { rating: number }) => void
   favMovies: (UniqueMovie & { rating: number })[]
+  fetchedMovies: ApiResponse<MovieT>
 }
 
 function MovieViewer({
   movieId,
   OnAddToWishList,
   onBackToMovies,
-  favMovies
+  favMovies,
+  fetchedMovies
 }: ViewerProps) {
   const [rating, setRating] = useState<number>(0)
   const { uniqueMovie, loading } = usePopMovieById(movieId)
 
   const getFilledStars = (starsCount: number) => {
-    setRating((_) => starsCount)
+    setRating(starsCount)
   }
   const watchedMovie = favMovies.find((fm) => fm.imdbID === movieId)
+  useEffect(() => {
+    if (!movieId) return
+    document.title = fetchedMovies.Search
+      ? `Movie | ${fetchedMovies.Search?.find((m) => m.imdbID === movieId)!
+          .Title}` : "" 
+
+    return () => {
+      document.title = "UsePopCorn"
+    }
+  }, [movieId])
+
   if (loading) return <Loader />
 
   return (
@@ -30,7 +45,7 @@ function MovieViewer({
         <button className="btn-back" onClick={onBackToMovies}>
           &larr;
         </button>
-        <img src={uniqueMovie.Poster} alt={uniqueMovie.Director} />
+        <img src={uniqueMovie.Poster || fallback} alt={uniqueMovie.Director} />
         <div className="details-overview">
           <h2>{uniqueMovie.Title}</h2>
           <p>
@@ -64,7 +79,8 @@ function MovieViewer({
             </>
           ) : (
             <p>
-              you already rated this Movie with {watchedMovie.rating}{" ⭐ "}
+              you already rated this Movie with {watchedMovie.rating}
+              {" ⭐ "}
             </p>
           )}
         </div>

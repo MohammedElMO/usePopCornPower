@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import MoviesList from "./components/FetchedMoviesCompo/MoviesList"
 import FavMovies from "./components/WatchedMoviesCompo/FavMovies"
 import MoviesWatchedOrSearched from "./components/WatchedMoviesCompo/MoviesWatched"
@@ -43,9 +43,6 @@ function App() {
   const handleDeleteWatchedMovie = (idToDelete: string) => {
     setWatched((watched) => watched.filter((w) => w.imdbID !== idToDelete))
   }
-  useEffect(() => {
-    document.title = searchedMovies.Search?.find((m) => m.imdbID === selectedMovie)?.Title || "UsePopCorn "
-  },[selectedMovie])
 
   return (
     <div>
@@ -72,6 +69,7 @@ function App() {
               movieId={selectedMovie}
               key={selectedMovie}
               OnAddToWishList={handleAddToWishList}
+              fetchedMovies={searchedMovies}
             />
           ) : (
             <>
