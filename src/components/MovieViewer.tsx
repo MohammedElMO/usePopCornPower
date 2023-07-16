@@ -30,12 +30,19 @@ function MovieViewer({
     if (!movieId) return
     document.title = fetchedMovies.Search
       ? `Movie | ${fetchedMovies.Search?.find((m) => m.imdbID === movieId)!
-          .Title}` : "" 
+          .Title}`
+      : ""
 
     return () => {
       document.title = "UsePopCorn"
     }
   }, [movieId])
+
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") onBackToMovies()
+    })
+  }, [])
 
   if (loading) return <Loader />
 
