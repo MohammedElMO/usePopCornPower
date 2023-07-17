@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import Star from "./common/Stars/star"
 import { stars } from "../constants/stars"
 

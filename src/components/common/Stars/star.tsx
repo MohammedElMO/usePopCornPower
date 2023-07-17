@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef, useEffect } from "react"
+import { ComponentProps, forwardRef } from "react"
 
 type Stars = {
   isHoverd: boolean

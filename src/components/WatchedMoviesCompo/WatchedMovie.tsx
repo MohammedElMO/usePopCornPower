@@ -1,6 +1,5 @@
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect,  } from "react"
 import { UniqueMovie } from "../../hooks/usePopMovieById"
-import { useDebounce } from "../../hooks/useDebounce"
 
 type WatchedProps = {
   movie: UniqueMovie & { rating: number }

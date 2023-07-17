@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { UniqueMovie } from "../../hooks/usePopMovieById"
 import Button from "../common/Button"
 import WatchedMovie from "./WatchedMovie"
