@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import usePopMovieById, { UniqueMovie } from "../hooks/usePopMovieById"
 import Rating from "./Rating"
 import Loader from "./common/Loader"
 import { ApiResponse, MovieT } from "../hooks/useMovies"
 import fallback from "../assets/fallback.png"
+import useKeys from "../hooks/useKeys"
 type ViewerProps = {
   movieId: string
   onBackToMovies: () => void
-  OnAddToWishList: (wishedMovie: UniqueMovie & { rating: number }) => void
-  favMovies: (UniqueMovie & { rating: number })[]
+  OnAddToWishList: (
+    wishedMovie: UniqueMovie & { rating: number; RatingDecisions: number }
+  ) => void
+  favMovies: (UniqueMovie & { rating: number; RatingDecisions: number })[]
   fetchedMovies: ApiResponse<MovieT>
 }
 
@@ -21,6 +24,7 @@ function MovieViewer({
 }: ViewerProps) {
   const [rating, setRating] = useState<number>(0)
   const { uniqueMovie, loading } = usePopMovieById(movieId)
+  const ratingRef = useRef<any>(0)
 
   const getFilledStars = (starsCount: number) => {
     setRating(starsCount)
@@ -37,12 +41,11 @@ function MovieViewer({
       document.title = "UsePopCorn"
     }
   }, [movieId])
+  useKeys("Escape", "keydown", onBackToMovies, [onBackToMovies, movieId])
 
   useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") onBackToMovies()
-    })
-  }, [])
+    if (rating) ratingRef.current = ratingRef.current + 1
+  }, [rating])
 
   if (loading) return <Loader />
 
@@ -77,7 +80,13 @@ function MovieViewer({
               />
               {rating > 0 && (
                 <button
-                  onClick={() => OnAddToWishList({ ...uniqueMovie, rating })}
+                  onClick={() =>
+                    OnAddToWishList({
+                      ...uniqueMovie,
+                      rating,
+                      RatingDecisions: ratingRef.current
+                    })
+                  }
                   className="btn-add"
                 >
                   Add to list

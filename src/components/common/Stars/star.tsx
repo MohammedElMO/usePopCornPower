@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef } from "react"
+import { ComponentProps, forwardRef, useEffect } from "react"
 
 type Stars = {
   isHoverd: boolean
@@ -6,6 +6,7 @@ type Stars = {
   color:string
 } & ComponentProps<"svg">
 const Star = forwardRef<SVGSVGElement, Stars>(({ isHoverd,size,color, ...props }, ref) => {
+  
   return (
     <>
       <svg

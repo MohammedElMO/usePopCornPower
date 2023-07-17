@@ -43,7 +43,6 @@ const useMovies = (s: string) => {
 
   return {
     movies,
-    // error,
     loading,
   }
 }

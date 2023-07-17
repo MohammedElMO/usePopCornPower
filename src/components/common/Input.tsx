@@ -1,9 +1,8 @@
-import { ComponentProps } from "react"
+import { ComponentProps, forwardRef } from "react"
 
-// type InputProps = {} & 
+ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>
+ (({ ...props },ref) =>
+   <input ref={ref} className="search" type="text" placeholder="Search movies..." {...props} />
 
-function Input({ ...props }: ComponentProps<"input">) {
-  return <input className="search" type="text" placeholder="Search movies..." {...props} />
-}
-
+ )
 export default Input

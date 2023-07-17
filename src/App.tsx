@@ -1,23 +1,21 @@
 import { useState } from "react"
 import MoviesList from "./components/FetchedMoviesCompo/MoviesList"
+import MovieViewer from "./components/MovieViewer"
 import FavMovies from "./components/WatchedMoviesCompo/FavMovies"
 import MoviesWatchedOrSearched from "./components/WatchedMoviesCompo/MoviesWatched"
 import Summary from "./components/WatchedMoviesCompo/Summary"
 import NavBar from "./components/common/NavBar"
-import useMovies from "./hooks/useMovies"
 import { useDebounce } from "./hooks/useDebounce"
-import MovieViewer from "./components/MovieViewer"
+import useLocaleStorage from "./hooks/useLocaleStorage"
+import useMovies from "./hooks/useMovies"
 import { UniqueMovie } from "./hooks/usePopMovieById"
 
 function App() {
-  const [watched, setWatched] = useState(
-    [] as (UniqueMovie & { rating: number })[]
-  )
   const [query, setQuery] = useState("")
   const [selectedMovie, setSelectedMovie] = useState<string | null>(null)
   const Deboucedsearch = useDebounce(query, 1000)
+  const { watched, setWatched } = useLocaleStorage("WatchedMovies", [])
   const { movies: searchedMovies, loading } = useMovies(Deboucedsearch)
-
   const handleSearchMove = (movieName: string) => {
     setQuery(movieName)
   }
@@ -30,7 +28,7 @@ function App() {
     setSelectedMovie(null)
   }
   const handleAddToWishList = (
-    wishedMovie: UniqueMovie & { rating: number }
+    wishedMovie: UniqueMovie & { rating: number; RatingDecisions: number }
   ) => {
     setWatched((wishedList) =>
       wishedList.find((m) => m.imdbID === wishedMovie.imdbID) ||
@@ -47,7 +45,7 @@ function App() {
   return (
     <div>
       <NavBar
-        movies={searchedMovies || []}
+        movies={searchedMovies}
         query={query}
         setQuery={handleSearchMove}
       />
@@ -56,7 +54,7 @@ function App() {
           <MoviesList
             idm={selectedMovie || ""}
             handleSelectedMovie={handleSelectedMovie}
-            movies={searchedMovies || []}
+            movies={searchedMovies}
             loading={loading}
             query={query}
           />

@@ -1,5 +1,6 @@
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { UniqueMovie } from "../../hooks/usePopMovieById"
+import { useDebounce } from "../../hooks/useDebounce"
 
 type WatchedProps = {
   movie: UniqueMovie & { rating: number }
@@ -7,6 +8,10 @@ type WatchedProps = {
 }
 
 function WatchedMovie({ movie, children }: WatchedProps) {
+  useEffect(() => {
+    console.log()
+    
+  }, [movie])
   return (
     <li key={movie.imdbID}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />

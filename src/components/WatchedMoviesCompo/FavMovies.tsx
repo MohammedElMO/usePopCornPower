@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { UniqueMovie } from "../../hooks/usePopMovieById"
 import Button from "../common/Button"
 import WatchedMovie from "./WatchedMovie"
@@ -8,14 +9,12 @@ type FavProps = {
 }
 
 function FavMovies({ favWatchedMovies, DeleteWatchedMovie }: FavProps) {
+
   return (
     <>
       <ul className="list">
         {favWatchedMovies.map((movie) => (
-          <WatchedMovie
-            movie={movie}
-            key={movie.imdbID}
-          >
+          <WatchedMovie movie={movie} key={movie.imdbID}>
             <Button
               type="button"
               className="btn-delete"
